@@ -114,6 +114,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -125,9 +126,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         padding: const EdgeInsets.only(top: 10.0),
         margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 19, 19, 19),
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
             ),
@@ -156,9 +157,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: const Icon(
+                            child: Icon(
                               Icons.arrow_back,
-                              color: Colors.white,
+                              color: theme.colorScheme.onPrimary,
                             ),
                           ),
                           Column(
@@ -169,9 +170,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 child: Text(
                                   widget.abbrv[widget.book].toString(),
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18.0,
-                                    color: Colors.white,
+                                    color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -194,9 +195,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                                     .length -
                                                 5),
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 16.0,
-                                      color: Colors.white,
+                                      color: theme.colorScheme.onPrimary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -212,7 +213,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 15.0,
-                                  color: Colors.grey[400],
+                                  color: theme.colorScheme.onPrimary,
                                 ),
                               ),
                               const SizedBox(height: 5.0),
@@ -221,7 +222,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 15.0,
-                                  color: Colors.grey[400],
+                                  color: theme.colorScheme.onPrimary,
                                 ),
                               ),
                             ],
@@ -234,7 +235,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 15.0,
-                                  color: Colors.grey[400],
+                                  color: theme.colorScheme.onPrimary,
                                 ),
                               ),
                               const SizedBox(height: 5.0),
@@ -243,7 +244,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 15.0,
-                                  color: Colors.grey[400],
+                                  color: theme.colorScheme.onPrimary,
                                 ),
                               ),
                             ],
@@ -280,9 +281,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_back,
-                                color: Colors.white,
+                                color: theme.colorScheme.onPrimary,
                               ),
                             ),
                             Column(
@@ -293,9 +294,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   child: Text(
                                     widget.abbrv[widget.book].toString(),
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 18.0,
-                                      color: Colors.white,
+                                      color: theme.colorScheme.onPrimary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -319,9 +320,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                                       .length -
                                                   5),
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16.0,
-                                        color: Colors.white,
+                                        color: theme.colorScheme.onPrimary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -337,7 +338,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Colors.grey[400],
+                                    color: theme.colorScheme.onPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 5.0),
@@ -346,7 +347,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Colors.grey[400],
+                                    color: theme.colorScheme.onPrimary,
                                   ),
                                 ),
                               ],
@@ -359,7 +360,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Colors.grey[400],
+                                    color: theme.colorScheme.onPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 5.0),
@@ -368,7 +369,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Colors.grey[400],
+                                    color: theme.colorScheme.onPrimary,
                                   ),
                                 ),
                               ],
@@ -405,7 +406,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                     gravity: ToastGravity.TOP,
                                     timeInSecForIosWeb: 1,
                                     backgroundColor: Colors.black,
-                                    textColor: Colors.white,
+                                    textColor: theme.colorScheme.onPrimary,
                                     fontSize: 16.0,
                                   );
                                 },
@@ -455,8 +456,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                             const SizedBox(height: 6.0),
                                             Text(
                                               eachVersion["text"],
-                                              style: const TextStyle(
-                                                color: Colors.white,
+                                              style: TextStyle(
+                                                color:
+                                                    theme.colorScheme.onPrimary,
                                               ),
                                             ),
                                           ],
@@ -488,13 +490,13 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                       gravity: ToastGravity.TOP,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.black,
-                                      textColor: Colors.white,
+                                      textColor: theme.colorScheme.onPrimary,
                                       fontSize: 16.0,
                                     );
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.copy_all,
-                                    color: Colors.white,
+                                    color: theme.colorScheme.onPrimary,
                                   ),
                                 ),
                                 const Text(

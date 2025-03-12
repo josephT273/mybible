@@ -188,14 +188,15 @@ class _BookmarksPageState extends State<BookmarksPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+        backgroundColor: theme.colorScheme.surface,
         title: Text(
           isMemorizing == true ? "Memorize" : "Bookmarks",
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
@@ -233,26 +234,26 @@ class _BookmarksPageState extends State<BookmarksPage> {
                     isMemorizing == true
                         ? "You have no saved verses to memorize!"
                         : "You have no saved verses!",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16.0,
-                      color: Colors.white,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 30.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 30.0),
                     child: Text(
                       "Press and hold on a bible verse then click on the bookmark icon at the bottom of the screen to add to bookmarks.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Colors.grey,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.bookmark_add_outlined,
-                    color: Colors.grey,
+                    color: theme.colorScheme.primary,
                   ),
                   const SizedBox(height: 200.0),
                 ],
@@ -269,7 +270,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                   ),
                   builder: (BuildContext context, int index) {
                     return Container(
-                      color: Colors.grey[900]!,
+                      color: theme.colorScheme.surface,
                       child: FlipCard(
                         fill: Fill.fillBack,
                         direction: FlipDirection.HORIZONTAL,
@@ -289,16 +290,16 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                 vertical: 15.0,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 26, 26, 26),
+                                color: theme.colorScheme.surface,
                                 border: Border.all(
-                                  color: Colors.grey[850]!,
+                                  color: theme.colorScheme.surface,
                                 ),
                                 borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black,
+                                    color: theme.colorScheme.surface,
                                     spreadRadius: 1.0,
-                                    offset: Offset(4, 5),
+                                    offset: const Offset(4, 5),
                                   )
                                 ],
                               ),
@@ -310,8 +311,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                   Text(
                                     savedVerses[index].verse,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onPrimary,
                                       fontSize: 20.0,
                                       height: 1.2,
                                     ),
@@ -320,7 +321,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                     "Click to know location of verse",
                                     style: TextStyle(
                                       fontSize: 12.0,
-                                      color: Colors.grey[700]!,
+                                      color: theme.colorScheme.primary,
                                     ),
                                   ),
                                 ],
@@ -330,7 +331,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               "Swipe up for the next verse to memorize",
                               style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.grey[700]!,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -346,16 +347,16 @@ class _BookmarksPageState extends State<BookmarksPage> {
                             horizontal: 20.0,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 26, 26, 26),
+                            color: theme.colorScheme.surface,
                             border: Border.all(
-                              color: Colors.grey[850]!,
+                              color: theme.colorScheme.primary,
                             ),
                             borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
-                                color: Colors.black,
+                                color: theme.colorScheme.surface,
                                 spreadRadius: 1.0,
-                                offset: Offset(4, 5),
+                                offset: const Offset(4, 5),
                               )
                             ],
                           ),
@@ -368,7 +369,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                       ? "አማ 1954"
                                       : savedVerses[index].version,
                                   style: TextStyle(
-                                    color: Colors.grey[500]!,
+                                    color: theme.colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0,
                                   ),
@@ -381,16 +382,18 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                         children: [
                                           Text(
                                             savedVerses[index].book + " ",
-                                            style: const TextStyle(
-                                              color: Colors.white,
+                                            style: TextStyle(
+                                              color:
+                                                  theme.colorScheme.onPrimary,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0,
                                             ),
                                           ),
                                           Text(
                                             "${savedVerses[index].chapter}:${savedVerses[index].number}",
-                                            style: const TextStyle(
-                                              color: Colors.white,
+                                            style: TextStyle(
+                                              color:
+                                                  theme.colorScheme.onPrimary,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0,
                                             ),
@@ -407,8 +410,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                             savedVerses[index]
                                                 .number
                                                 .toString(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                                        style: TextStyle(
+                                          color: theme.colorScheme.onPrimary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.0,
                                         ),
@@ -439,8 +442,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.TOP,
                                 timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
+                                backgroundColor: theme.colorScheme.surface,
+                                textColor: theme.colorScheme.onPrimary,
                                 fontSize: 16.0,
                               );
                             },
@@ -451,8 +454,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.TOP,
                                 timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
+                                backgroundColor: theme.colorScheme.surface,
+                                textColor: theme.colorScheme.onPrimary,
                                 fontSize: 16.0,
                               );
                             },
@@ -468,18 +471,18 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                 right: 12.0,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 26, 26, 26),
+                                color: theme.colorScheme.surface,
                                 border: Border.all(
-                                  color: Colors.grey[850]!,
+                                  color: theme.colorScheme.primary,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(10.0),
                                 ),
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black,
+                                    color: theme.colorScheme.surface,
                                     spreadRadius: 1.0,
-                                    offset: Offset(3, 4),
+                                    offset: const Offset(3, 4),
                                   )
                                 ],
                               ),
@@ -495,16 +498,18 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                               children: [
                                                 Text(
                                                   eachSavedVerse.book + " ",
-                                                  style: const TextStyle(
-                                                    color: Colors.grey,
+                                                  style: TextStyle(
+                                                    color: theme
+                                                        .colorScheme.primary,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 13.0,
                                                   ),
                                                 ),
                                                 Text(
                                                   "${eachSavedVerse.chapter}:${eachSavedVerse.number}",
-                                                  style: const TextStyle(
-                                                    color: Colors.grey,
+                                                  style: TextStyle(
+                                                    color: theme
+                                                        .colorScheme.primary,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 15.0,
                                                   ),
@@ -519,8 +524,9 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                                   ":" +
                                                   eachSavedVerse.number
                                                       .toString(),
-                                              style: const TextStyle(
-                                                color: Colors.grey,
+                                              style: TextStyle(
+                                                color:
+                                                    theme.colorScheme.primary,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 15.0,
                                               ),
@@ -530,7 +536,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                             ? "አማ 1954"
                                             : eachSavedVerse.version,
                                         style: TextStyle(
-                                          color: Colors.grey[600]!,
+                                          color: theme.colorScheme.primary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12.0,
                                         ),
@@ -540,8 +546,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                   const SizedBox(height: 8.0),
                                   Text(
                                     eachSavedVerse.verse,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onPrimary,
                                       fontSize: 15.0,
                                     ),
                                   ),
@@ -561,7 +567,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                         "Tap on individual bookmarks to copy.",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Colors.grey[700]!,
+                          color: theme.colorScheme.primary,
                           fontSize: 13.0,
                         ),
                       ),
@@ -575,7 +581,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                         "Long press on individual bookmarks to delete individually.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.grey[700]!,
+                          color: theme.colorScheme.primary,
                           fontSize: 13.0,
                         ),
                       ),
@@ -590,7 +596,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                           gravity: ToastGravity.TOP,
                           timeInSecForIosWeb: 1,
                           backgroundColor: Colors.black,
-                          textColor: Colors.white,
+                          textColor: theme.colorScheme.onPrimary,
                           fontSize: 16.0,
                         );
                       },
@@ -604,10 +610,10 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               size: 30.0,
                             ),
                           ),
-                          const Text(
+                          Text(
                             "Delete All",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: theme.colorScheme.onPrimary,
                             ),
                           ),
                           Padding(
@@ -619,7 +625,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               "Long press the delete icon to delete all bookmarks",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.grey[700]!,
+                                color: theme.colorScheme.primary,
                                 fontSize: 14.0,
                                 height: 1.3,
                               ),

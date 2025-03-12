@@ -23,6 +23,7 @@ class EachTestament extends StatefulWidget {
 class _EachTestamentState extends State<EachTestament> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
         widget.setSelectedTestament(widget.english);
@@ -41,15 +42,15 @@ class _EachTestamentState extends State<EachTestament> {
           right: 20.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.grey[900]!,
+          color: theme.colorScheme.primary,
           border: Border.all(
-            color: Colors.grey[850]!,
+            color: theme.colorScheme.onPrimary,
           ),
-          boxShadow: const [
+          boxShadow:  [
             BoxShadow(
-              color: Colors.black,
+              color: theme.colorScheme.onPrimary,
               spreadRadius: 1.0,
-              offset: Offset(3, 4),
+              offset: const Offset(3, 4),
             )
           ],
           borderRadius: BorderRadius.circular(10.0),
@@ -65,7 +66,7 @@ class _EachTestamentState extends State<EachTestament> {
                     fontSize: 18.0,
                     color: widget.selectedTestament == widget.english
                         ? Colors.greenAccent
-                        : Colors.white,
+                        : theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5.0),
@@ -75,7 +76,7 @@ class _EachTestamentState extends State<EachTestament> {
                     fontSize: 16.0,
                     color: widget.selectedTestament == widget.english
                         ? Colors.greenAccent
-                        : Colors.white,
+                        : theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold),
               ),
             ],

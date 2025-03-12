@@ -185,6 +185,8 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -196,9 +198,9 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
         padding: const EdgeInsets.only(top: 10.0),
         margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 19, 19, 19),
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
             ),
@@ -225,19 +227,19 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_back,
-                          color: Colors.white,
+                          color: theme.colorScheme.onPrimary,
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             "Books",
                             style: TextStyle(
                               fontSize: 18.0,
-                              color: Colors.white,
+                              color: theme.colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -245,15 +247,15 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                             "  |  ",
                             style: TextStyle(
                               fontSize: 18.0,
-                              color: Colors.grey[800]!,
+                              color: theme.colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Text(
+                          Text(
                             "መጽሐፍት",
                             style: TextStyle(
                               fontSize: 16.0,
-                              color: Colors.white,
+                              color: theme.colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -300,9 +302,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     ),
                   ),
                 ),
-                Divider(
-                  color: Colors.grey[800],
-                ),
+                Divider(color: theme.colorScheme.primary),
 
                 // Each Book
                 Container(

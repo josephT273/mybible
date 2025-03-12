@@ -12,7 +12,7 @@ class ChooseChapterBS extends StatefulWidget {
     required this.chosenBook,
     required this.chosenVersion,
     required this.setChapter,
-    required this.currentChapter,
+    required this.currentChapter
   });
 
   final String otORnt;
@@ -47,6 +47,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       // height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -60,9 +61,9 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
             padding: const EdgeInsets.only(top: 10.0),
             margin: const EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 19, 19, 19),
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(
                   20.0,
                 ),
@@ -89,19 +90,19 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_back,
-                                color: Colors.white,
+                                color: theme.colorScheme.onPrimary,
                               ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   "Chapters",
                                   style: TextStyle(
                                     fontSize: 20.0,
-                                    color: Colors.white,
+                                    color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -109,15 +110,15 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                                   "  |  ",
                                   style: TextStyle(
                                     fontSize: 20.0,
-                                    color: Colors.grey[800]!,
+                                    color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   "ምዕራፎች",
                                   style: TextStyle(
                                     fontSize: 17.0,
-                                    color: Colors.white,
+                                    color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -131,7 +132,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                       // Divider
                       const SizedBox(height: 5.0),
                       Divider(
-                        color: Colors.grey[800]!,
+                        color: theme.colorScheme.primary,
                         height: 10.0,
                       ),
                       const SizedBox(height: 5.0),

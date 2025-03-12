@@ -19,6 +19,7 @@ class EachChapterButton extends StatefulWidget {
 class _EachChapterButtonState extends State<EachChapterButton> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 4.0,
@@ -26,15 +27,15 @@ class _EachChapterButtonState extends State<EachChapterButton> {
       ),
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       decoration: BoxDecoration(
-        color: Colors.grey[900]!,
+        color: theme.colorScheme.primary,
         border: Border.all(
-          color: Colors.grey[850]!,
+          color: theme.colorScheme.onPrimary,
         ),
-        boxShadow: const [
+        boxShadow:  [
           BoxShadow(
-            color: Colors.black,
+            color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
-            offset: Offset(3, 4),
+            offset: const Offset(3, 4),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
@@ -46,7 +47,7 @@ class _EachChapterButtonState extends State<EachChapterButton> {
             widget.chapter,
             style: TextStyle(
               color:
-                  widget.isSelected == true ? Colors.greenAccent : Colors.white,
+                  widget.isSelected == true ? Colors.greenAccent : theme.colorScheme.onPrimary,
               fontSize: 16.0,
             ),
           ),

@@ -21,6 +21,7 @@ class EachBookButton extends StatefulWidget {
 class _EachBookButtonState extends State<EachBookButton> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       // width: double.infinity,
       margin: const EdgeInsets.symmetric(
@@ -35,15 +36,15 @@ class _EachBookButtonState extends State<EachBookButton> {
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: Colors.grey[900]!,
+        color: theme.colorScheme.primary,
         border: Border.all(
-          color: Colors.grey[850]!,
+          color: theme.colorScheme.onPrimary,
         ),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Colors.black,
+            color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
-            offset: Offset(3, 4),
+            offset: const Offset(3, 4),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
@@ -57,7 +58,7 @@ class _EachBookButtonState extends State<EachBookButton> {
               style: TextStyle(
                 color: widget.isSelected == true
                     ? Colors.greenAccent
-                    : Colors.white,
+                    : theme.colorScheme.onPrimary,
                 fontSize: 15.0,
               ),
             ),
@@ -69,7 +70,7 @@ class _EachBookButtonState extends State<EachBookButton> {
               style: TextStyle(
                 color: widget.isSelected == true
                     ? Colors.greenAccent
-                    : Colors.white,
+                    : theme.colorScheme.onPrimary,
                 fontSize: 14.0,
               ),
             ),

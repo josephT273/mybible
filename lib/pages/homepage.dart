@@ -11,13 +11,12 @@ import 'package:mybible/components/differentVersionBS.dart';
 import 'package:mybible/components/eachVerse.dart';
 import 'package:mybible/models/savedVerses.dart';
 import 'package:mybible/pages/bookmarksPage.dart';
+import 'package:mybible/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomePage extends StatefulWidget {
-  final Function(bool) toggleTheme;
-  final bool isDarkMode;
-
-  const HomePage({super.key, required this.toggleTheme, required this.isDarkMode});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -264,8 +263,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showBooks() async {
+    final theme = Theme.of(context);
+
     showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      backgroundColor: theme.colorScheme.surface,
       anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -286,8 +287,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showChapters() async {
+    final theme = Theme.of(context);
+
     showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      backgroundColor: theme.colorScheme.surface,
       anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -308,8 +311,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showVersions() async {
+    final theme = Theme.of(context);
+
     showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      backgroundColor: theme.colorScheme.surface,
       anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -330,8 +335,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showDifferentVersions(currentVerse) async {
+    final theme = Theme.of(context);
+
     showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      backgroundColor: theme.colorScheme.surface,
       anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -648,51 +655,12 @@ class _HomePageState extends State<HomePage> {
   GlobalKey keyButton8 = GlobalKey();
   GlobalKey keyButton9 = GlobalKey();
 
-  Future<void> _updateSeenTutorial() async {
-    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-    await savedVersesBox.put("seenTutorial", true);
-    await savedVersesBox.close();
-    setContent("NASB", "OT", "GEN", 1);
-  }
-
   void showTutorial() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     dynamic haveSeenTutorial = await savedVersesBox.get("seenTutorial");
     haveSeenTutorial = haveSeenTutorial ?? false;
     // await savedVersesBox.clear();
     await savedVersesBox.close();
-    if (haveSeenTutorial == false) {
-      TutorialCoachMark tutorial = TutorialCoachMark(
-          targets: targets,
-          colorShadow: Colors.black,
-          opacityShadow: 0.9,
-          alignSkip: Alignment.bottomCenter,
-          textSkip: "SKIP",
-          // paddingFocus: 10,
-          // focusAnimationDuration: Duration(milliseconds: 500),
-          // unFocusAnimationDuration: Duration(milliseconds: 500),
-          // pulseAnimationDuration: Duration(milliseconds: 500),
-          // pulseVariation: Tween(begin: 1.0, end: 0.99),
-          // showSkipInLastTarget: true,
-          // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          onFinish: () async{
-              Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-              await savedVersesBox.put("seenTutorial", true);
-              await savedVersesBox.close();
-          },
-          onClickTargetWithTapPosition: (target, tapDetails) {},
-          onClickTarget: (target) {},
-          onSkip: (){
-            _updateSeenTutorial();
-            return true;
-          })
-        ..show(context: context);
-    }
-
-    // tutorial.skip();
-    // tutorial.finish();
-    // tutorial.next(); // call next target programmatically
-    // tutorial.previous(); // call previous target programmatically
   }
 
   void createTutorial() {
@@ -858,22 +826,14 @@ class _HomePageState extends State<HomePage> {
     loadAmharicBible();
     createTutorial();
     Future.delayed(const Duration(seconds: 1), showTutorial);
-
-    isDarkMode = widget.isDarkMode;
-  }
-
-  void _onToggle(bool value){
-    setState(() {
-      isDarkMode = value;
-    });
-
-    widget.toggleTheme(value);
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: ListView(
           children: [
@@ -941,7 +901,7 @@ class _HomePageState extends State<HomePage> {
                                                           5)
                                               : "${abbrv[currentBook]}",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: theme.colorScheme.onPrimary,
                                             fontSize:
                                                 isAmharic == true ? 18.0 : 20.0,
                                             fontWeight: FontWeight.bold,
@@ -955,8 +915,8 @@ class _HomePageState extends State<HomePage> {
                                         child: Text(
                                           key: keyButton2,
                                           "  $currentChapter",
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color: theme.colorScheme.onPrimary,
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -1001,8 +961,9 @@ class _HomePageState extends State<HomePage> {
                                             isAmharic == true
                                                 ? "አማ"
                                                 : currentVersion,
-                                            style: const TextStyle(
-                                              color: Colors.white,
+                                            style: TextStyle(
+                                              color:
+                                                  theme.colorScheme.onPrimary,
                                               fontSize: 15.0,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -1020,26 +981,25 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           );
                                         },
-                                        icon: const Icon(
+                                        icon: Icon(
                                           Icons.bookmark_outline,
-                                          color: Colors.white,
+                                          color: theme.colorScheme.onPrimary,
                                         ),
                                       ),
-
                                       IconButton(
-                                        onPressed: () {
-                                          _onToggle(!isDarkMode);
-                                        },
-                                        icon: isDarkMode ? const Icon(
-                                          Icons.light_mode,
-                                          color: Colors.black,
-                                        ) : 
-                                        const Icon(
-                                          Icons.dark_mode,
-                                          color: Colors.white,
+                                        icon: Icon(
+                                          themeProvider.isDarkMode
+                                              ? Icons.dark_mode
+                                              : Icons.light_mode,
+                                          color: themeProvider.isDarkMode
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
-                                      ),
-
+                                        onPressed: () {
+                                          themeProvider.toggleTheme(
+                                              !themeProvider.isDarkMode);
+                                        },
+                                      )
                                     ],
                                   ),
                                 ],
@@ -1168,12 +1128,12 @@ class _HomePageState extends State<HomePage> {
                                                                             .TOP,
                                                                     timeInSecForIosWeb:
                                                                         1,
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .black,
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
+                                                                    backgroundColor: theme
+                                                                        .colorScheme
+                                                                        .surface,
+                                                                    textColor: theme
+                                                                        .colorScheme
+                                                                        .onPrimary,
                                                                     fontSize:
                                                                         16.0,
                                                                   );
@@ -1281,7 +1241,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(left: 30.0),
                       child: FloatingActionButton(
                         heroTag: "backChapter",
-                        backgroundColor: Colors.grey[800],
+                        backgroundColor: theme.colorScheme.onPrimary,
                         mini: true,
                         onPressed: () {
                           if (currentChapter - 1 >= 1) {
@@ -1294,9 +1254,9 @@ class _HomePageState extends State<HomePage> {
                             );
                           }
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_back,
-                          color: Colors.white,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     )
@@ -1309,14 +1269,14 @@ class _HomePageState extends State<HomePage> {
                 child: FloatingActionButton(
                   key: keyButton6,
                   heroTag: "decreaseFont",
-                  backgroundColor: Colors.grey[800],
+                  backgroundColor: theme.colorScheme.onPrimary,
                   mini: true,
                   onPressed: () {
                     decreaseFontSize();
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.remove,
-                    color: Colors.white,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
               ),
@@ -1333,7 +1293,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(left: 5.0),
                       child: FloatingActionButton(
                         heroTag: "copyVerse",
-                        backgroundColor: Colors.grey[800],
+                        backgroundColor: theme.colorScheme.onPrimary,
                         mini: true,
                         onPressed: () {
                           copySelectedVerses();
@@ -1344,14 +1304,14 @@ class _HomePageState extends State<HomePage> {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
+                            backgroundColor: theme.colorScheme.surface,
+                            textColor: theme.colorScheme.primary,
                             fontSize: 16.0,
                           );
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.copy_rounded,
-                          color: Colors.white,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     ),
@@ -1359,7 +1319,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(left: 5.0),
                       child: FloatingActionButton(
                         heroTag: "bookmarkVerse",
-                        backgroundColor: Colors.grey[800],
+                        backgroundColor: theme.colorScheme.onPrimary,
                         mini: true,
                         onPressed: () {
                           addToBookmarks();
@@ -1370,14 +1330,14 @@ class _HomePageState extends State<HomePage> {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
+                            backgroundColor: theme.colorScheme.surface,
+                            textColor: theme.colorScheme.primary,
                             fontSize: 16.0,
                           );
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.bookmark_add_outlined,
-                          color: Colors.white,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     ),
@@ -1390,14 +1350,14 @@ class _HomePageState extends State<HomePage> {
                 child: FloatingActionButton(
                   key: keyButton5,
                   heroTag: "increaseFont",
-                  backgroundColor: Colors.grey[800],
+                  backgroundColor: theme.colorScheme.onPrimary,
                   mini: true,
                   onPressed: () {
                     increaseFontSize();
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.add,
-                    color: Colors.white,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
               ),
@@ -1405,7 +1365,7 @@ class _HomePageState extends State<HomePage> {
                   ? FloatingActionButton(
                       key: keyButton7,
                       heroTag: "nextChapter",
-                      backgroundColor: Colors.grey[800],
+                      backgroundColor: theme.colorScheme.onPrimary,
                       mini: true,
                       onPressed: () {
                         if (currentChapter + 1 <= chapterLength) {
@@ -1418,9 +1378,9 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
                       },
-                      child: const Icon(
+                      child: Icon(
                         Icons.arrow_forward,
-                        color: Colors.white,
+                        color: theme.colorScheme.primary,
                       ),
                     )
                   : Container(height: 1.0)

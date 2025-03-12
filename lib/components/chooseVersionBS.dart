@@ -42,6 +42,7 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(this.context);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -53,9 +54,9 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
         padding: const EdgeInsets.only(top: 10.0),
         margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 19, 19, 19),
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
             ),
@@ -84,17 +85,17 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_back,
-                                color: Colors.white,
+                                color: theme.colorScheme.onPrimary,
                               ),
                             ),
                             const SizedBox(width: 10.0),
-                            const Text(
+                            Text(
                               "Versions",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.white,
+                                color: theme.colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -102,15 +103,15 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                               "  |  ",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.grey[800]!,
+                                color: theme.colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text(
+                            Text(
                               "ትርጉሞች",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: Colors.white,
+                                color: theme.colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -121,7 +122,7 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                       // Divider
                       const SizedBox(height: 5.0),
                       Divider(
-                        color: Colors.grey[800]!,
+                        color: theme.colorScheme.primary,
                         height: 10.0,
                       ),
                       const SizedBox(height: 5.0),
