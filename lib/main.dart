@@ -14,6 +14,8 @@ void main() async {
   Hive.registerAdapter(SavedVerseAdapter());
   Hive.registerAdapter(SavedFontSizeAdapter());
   // await Hive.openBox<SavedVerse>("SavedVerses");
+  await Hive.openBox('settings');
+  
   runApp(MyApp());
 }
 
@@ -25,8 +27,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final settingsBox = Hive.box('settings');
+    setState(() {
+      isDarkMode = settingsBox.get('isDarkMode', defaultValue: false);
+    });
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
+    
+    void toggleTheme(bool value){
+      final settingsBox = Hive.box('settings');
+
+      settingsBox.put("isDarkMode", value);
+
+      setState(() {
+        isDarkMode = value;
+      });
+    }
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -36,10 +61,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
+      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       routes: {
         "/": (context) => SplashScreen(),
         // "/": (context) => TestZoom(),
-        "homePage": (context) => HomePage(),
+        "homePage": (context) => HomePage(
+          isDarkMode: isDarkMode,
+          toggleTheme: toggleTheme,
+        ),
       },
     );
   }

@@ -14,7 +14,10 @@ import 'package:mybible/pages/bookmarksPage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Function(bool) toggleTheme;
+  final bool isDarkMode;
+
+  const HomePage({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   int chapterLength = 0;
   bool isOT = true;
   bool showComments = true;
-
+  late bool isDarkMode;
   late double eachVerseFontSize;
   late double eachNumberFontSize;
   late double eachCommentFontSize;
@@ -222,7 +225,7 @@ class _HomePageState extends State<HomePage> {
         await savedVersesBox.close();
       }
     } catch (error) {
-      print(HiveError('${error.toString()}'));
+      print(HiveError(error.toString()));
     }
     setState(() {});
   }
@@ -645,6 +648,13 @@ class _HomePageState extends State<HomePage> {
   GlobalKey keyButton8 = GlobalKey();
   GlobalKey keyButton9 = GlobalKey();
 
+  Future<void> _updateSeenTutorial() async {
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    await savedVersesBox.put("seenTutorial", true);
+    await savedVersesBox.close();
+    setContent("NASB", "OT", "GEN", 1);
+  }
+
   void showTutorial() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     dynamic haveSeenTutorial = await savedVersesBox.get("seenTutorial");
@@ -665,19 +675,16 @@ class _HomePageState extends State<HomePage> {
           // pulseVariation: Tween(begin: 1.0, end: 0.99),
           // showSkipInLastTarget: true,
           // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          onFinish: () async {
-            Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-            await savedVersesBox.put("seenTutorial", true);
-            await savedVersesBox.close();
-            setContent("NASB", "OT", "GEN", 1);
+          onFinish: () async{
+              Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+              await savedVersesBox.put("seenTutorial", true);
+              await savedVersesBox.close();
           },
           onClickTargetWithTapPosition: (target, tapDetails) {},
           onClickTarget: (target) {},
-          onSkip: () async {
-            Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-            await savedVersesBox.put("seenTutorial", true);
-            await savedVersesBox.close();
-            setContent("NASB", "OT", "GEN", 1);
+          onSkip: (){
+            _updateSeenTutorial();
+            return true;
           })
         ..show(context: context);
     }
@@ -851,6 +858,16 @@ class _HomePageState extends State<HomePage> {
     loadAmharicBible();
     createTutorial();
     Future.delayed(const Duration(seconds: 1), showTutorial);
+
+    isDarkMode = widget.isDarkMode;
+  }
+
+  void _onToggle(bool value){
+    setState(() {
+      isDarkMode = value;
+    });
+
+    widget.toggleTheme(value);
   }
 
   @override
@@ -1008,6 +1025,21 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                         ),
                                       ),
+
+                                      IconButton(
+                                        onPressed: () {
+                                          _onToggle(!isDarkMode);
+                                        },
+                                        icon: isDarkMode ? const Icon(
+                                          Icons.light_mode,
+                                          color: Colors.black,
+                                        ) : 
+                                        const Icon(
+                                          Icons.dark_mode,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+
                                     ],
                                   ),
                                 ],
