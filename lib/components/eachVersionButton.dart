@@ -21,6 +21,9 @@ class _EachVersionButtonState extends State<EachVersionButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final selectedColor = widget.isSelected
+        ? theme.colorScheme.secondary
+        : theme.colorScheme.onPrimary;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(
@@ -53,16 +56,14 @@ class _EachVersionButtonState extends State<EachVersionButton> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Version ID
+                // Version ID and Title
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.versionData["ID"].toString(),
                       style: TextStyle(
-                        color: widget.isSelected == true
-                            ? Colors.greenAccent
-                            : theme.colorScheme.onPrimary,
+                        color: selectedColor,
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -71,72 +72,53 @@ class _EachVersionButtonState extends State<EachVersionButton> {
                     Text(
                       widget.versionData["title"].toString(),
                       style: TextStyle(
-                        color: widget.isSelected == true
-                            ? Colors.greenAccent.withOpacity(0.7)
-                            : theme.colorScheme.onPrimary,
+                        color: selectedColor.withOpacity(0.7),
                       ),
                     ),
                   ],
                 ),
-                // Mode Info About Versions
+                // Expand / Collapse Button
                 IconButton(
                   onPressed: () {
-                    isExpanded = !isExpanded;
-                    setState(() {});
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
                   },
                   icon: Icon(
-                    isExpanded == true
-                        ? Icons.expand_less_sharp
-                        : Icons.expand_more_sharp,
-                    color: widget.isSelected == true
-                        ? Colors.greenAccent
-                        : theme.colorScheme.onPrimary,
+                    isExpanded ? Icons.expand_less_sharp : Icons.expand_more_sharp,
+                    color: selectedColor,
                   ),
                 ),
               ],
             ),
           ),
           // Version Details
-          isExpanded == false
-              ? Container(height: 15.0)
-              : Container(
+          isExpanded
+              ? Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: 10.0,
                   ),
-                  padding: const EdgeInsets.only(
-                    top: 15.0,
-                    bottom: 15.0,
-                    left: 15.0,
-                    right: 10.0,
-                  ),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 15.0),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 19, 19, 19),
+                    color: theme.cardColor,
                     border: Border.all(
-                      color: Colors.grey[850]!,
+                      color: theme.dividerColor,
                     ),
-                    // boxShadow: const [
-                    //   BoxShadow(
-                    //     color: Colors.black,
-                    //     spreadRadius: 1.0,
-                    //     offset: Offset(3, 4),
-                    //   )
-                    // ],
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
                     widget.versionData["details"].toString(),
                     style: TextStyle(
-                      color: widget.isSelected == true
-                          ? Colors.greenAccent
-                          : theme.colorScheme.onPrimary,
+                      color: selectedColor,
                       fontSize: 14.0,
                       height: 1.4,
-                      // fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                )
+              : const SizedBox(height: 15.0),
         ],
       ),
     );

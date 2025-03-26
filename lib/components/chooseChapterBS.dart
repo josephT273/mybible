@@ -49,30 +49,24 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      // height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: Colors.greenAccent,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: ListView(
         children: [
           Container(
-            // height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.only(top: 10.0),
             margin: const EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(
-                  20.0,
-                ),
-                topRight: Radius.circular(
-                  20.0,
-                ),
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
             ),
-            child: chapterLength == []
+            child: chapterLength.isEmpty
                 ? Container()
                 : Column(
                     children: [
@@ -128,16 +122,12 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                           ],
                         ),
                       ),
-
-                      // Divider
                       const SizedBox(height: 5.0),
                       Divider(
                         color: theme.colorScheme.primary,
                         height: 10.0,
                       ),
                       const SizedBox(height: 5.0),
-
-                      // Chapters
                       Container(
                         height: MediaQuery.of(context).size.height * 0.6,
                         padding: const EdgeInsets.symmetric(
@@ -159,10 +149,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                                 },
                                 child: EachChapterButton(
                                   chapter: eachChapter.toString(),
-                                  isSelected:
-                                      widget.currentChapter == eachChapter
-                                          ? true
-                                          : false,
+                                  isSelected: widget.currentChapter == eachChapter,
                                 ),
                               ),
                             const SizedBox(height: 100.0),

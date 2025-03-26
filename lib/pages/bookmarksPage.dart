@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_interpolation_to_compose_strings
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
@@ -278,7 +278,9 @@ class _BookmarksPageState extends State<BookmarksPage> {
                         front: Column(
                           children: [
                             Container(
-                              height: 400.0,
+                              constraints: BoxConstraints(
+                                maxHeight: MediaQuery.of(context).size.height * 0.4
+                              ),
                               margin: const EdgeInsets.only(
                                 left: 20.0,
                                 right: 15.0,

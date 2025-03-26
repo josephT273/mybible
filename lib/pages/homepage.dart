@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:mybible/components/chooseBookBS.dart';
@@ -832,420 +833,554 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      body: SafeArea(
-        child: ListView(
-          children: [
-            GestureDetector(
-              onHorizontalDragStart: (details) {
-                if (details.localPosition.dx < 230.0) {
-                  if (currentChapter - 1 >= 1) {
-                    currentChapter -= 1;
-                    setContent(
-                      currentVersion,
-                      currentTestament,
-                      currentBook,
-                      currentChapter,
-                    );
+
+    SystemChrome.setSystemUIOverlayStyle(
+      theme.brightness == Brightness.dark
+      ? SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+      ) : SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent
+      )
+    );
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: theme.brightness == Brightness.dark
+      ? SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+      ) : SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent
+      ),
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.surface,
+        body: SafeArea(
+          child: ListView(
+            children: [
+              GestureDetector(
+                onHorizontalDragStart: (details) {
+                  if (details.localPosition.dx < 230.0) {
+                    if (currentChapter - 1 >= 1) {
+                      currentChapter -= 1;
+                      setContent(
+                        currentVersion,
+                        currentTestament,
+                        currentBook,
+                        currentChapter,
+                      );
+                    }
+                  } else {
+                    if (currentChapter + 1 <= chapterLength) {
+                      currentChapter += 1;
+                      setContent(
+                        currentVersion,
+                        currentTestament,
+                        currentBook,
+                        currentChapter,
+                      );
+                    }
                   }
-                } else {
-                  if (currentChapter + 1 <= chapterLength) {
-                    currentChapter += 1;
-                    setContent(
-                      currentVersion,
-                      currentTestament,
-                      currentBook,
-                      currentChapter,
-                    );
-                  }
-                }
-              },
-              child: Column(
-                children: [
-                  Container(
-                    height: 20.0,
-                  ),
-                  content != null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 5.0,
-                                left: 15.0,
-                                right: 5.0,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Book and Chapter
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          showBooks();
-                                        },
-                                        child: Text(
-                                          key: keyButton,
-                                          isAmharic == true
-                                              ? englishToAmharicMap[
-                                                      abbrv[currentBook]]
-                                                  .toString()
-                                                  .substring(
-                                                      3,
-                                                      englishToAmharicMap[abbrv[
-                                                                  currentBook]]
-                                                              .length -
-                                                          5)
-                                              : "${abbrv[currentBook]}",
-                                          style: TextStyle(
-                                            color: theme.colorScheme.onPrimary,
-                                            fontSize:
-                                                isAmharic == true ? 18.0 : 20.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showChapters();
-                                        },
-                                        child: Text(
-                                          key: keyButton2,
-                                          "  $currentChapter",
-                                          style: TextStyle(
-                                            color: theme.colorScheme.onPrimary,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Translations and Bookmarks
-                                  Row(
-                                    children: [
-                                      currentVersion == "ERV" &&
-                                              isAmharic == false
-                                          ? IconButton(
-                                              onPressed: () {
-                                                showComments = !showComments;
-                                                setState(() {});
-                                              },
-                                              icon: Icon(
-                                                showComments == true
-                                                    ? Icons
-                                                        .comments_disabled_outlined
-                                                    : Icons
-                                                        .insert_comment_outlined,
-                                                color: Colors.grey[700]!,
-                                              ),
-                                            )
-                                          : Container(
-                                              height: 50.0,
-                                              // color: Colors.red,
-                                            ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showVersions();
-                                        },
-                                        child: Container(
-                                          key: keyButton3,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0,
-                                            vertical: 10.0,
-                                          ),
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: 20.0,
+                    ),
+                    content != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 5.0,
+                                  left: 15.0,
+                                  right: 5.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Book and Chapter
+                                    Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            showBooks();
+                                          },
                                           child: Text(
+                                            key: keyButton,
                                             isAmharic == true
-                                                ? "አማ"
-                                                : currentVersion,
+                                                ? englishToAmharicMap[
+                                                        abbrv[currentBook]]
+                                                    .toString()
+                                                    .substring(
+                                                        3,
+                                                        englishToAmharicMap[abbrv[
+                                                                    currentBook]]
+                                                                .length -
+                                                            5)
+                                                : "${abbrv[currentBook]}",
                                             style: TextStyle(
-                                              color:
-                                                  theme.colorScheme.onPrimary,
-                                              fontSize: 15.0,
+                                              color: theme.colorScheme.onPrimary,
+                                              fontSize:
+                                                  isAmharic == true ? 18.0 : 20.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      IconButton(
-                                        key: keyButton4,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const BookmarksPage(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showChapters();
+                                          },
+                                          child: Text(
+                                            key: keyButton2,
+                                            "  $currentChapter",
+                                            style: TextStyle(
+                                              color: theme.colorScheme.onPrimary,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                          );
-                                        },
-                                        icon: Icon(
-                                          Icons.bookmark_outline,
-                                          color: theme.colorScheme.onPrimary,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          themeProvider.isDarkMode
-                                              ? Icons.dark_mode
-                                              : Icons.light_mode,
-                                          color: themeProvider.isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          themeProvider.toggleTheme(
-                                              !themeProvider.isDarkMode);
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.grey[700],
-                            ),
-                            isAmharic == true
-                                ? Column(
-                                    children: [
-                                      for (var eachVerse in amharicBible)
-                                        eachVerse["text"] == "" ||
-                                                eachVerse["text"] == "-"
-                                            ? Container()
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  showDifferentVersions(
-                                                    eachVerse["ID"],
-                                                  );
-                                                },
-                                                onLongPress: () {
-                                                  selectVerses(
-                                                      eachVerse["ID"]
-                                                          .toString(),
-                                                      eachVerse["text"]);
-                                                },
-                                                child: EachVerse(
-                                                  verseData: eachVerse,
-                                                  fontSize: eachVerseFontSize,
-                                                  eachNumberFontSize:
-                                                      eachNumberFontSize,
-                                                  selectedVerse: selectedVerse,
-                                                ),
-                                              ),
-                                    ],
-                                  )
-                                : currentVersion == "ERV"
-                                    ? Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 5.0,
-                                              bottom: 10.0,
-                                              left: 20.0,
-                                              right: 20.0,
-                                            ),
-                                            child: showComments == true &&
-                                                    ervTitle["title"] != null
-                                                ? Text(
-                                                    ervTitle["title"],
-                                                    style: TextStyle(
-                                                      color: Colors.greenAccent,
-                                                      fontSize:
-                                                          eachTopicFontSize,
-                                                    ),
-                                                  )
-                                                : Container(),
                                           ),
-                                          // Each ERV Verse
-                                          for (var eachVerse
-                                              in ervTitle["text"])
-                                            GestureDetector(
-                                              onTap: () {
-                                                showDifferentVersions(
-                                                  int.parse(eachVerse["ID"]),
-                                                );
-                                              },
-                                              onLongPress: () {
-                                                selectVerses(eachVerse["ID"],
-                                                    eachVerse["text"]);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  EachVerse(
-                                                    verseData: eachVerse,
-                                                    fontSize: eachVerseFontSize,
-                                                    eachNumberFontSize:
-                                                        eachNumberFontSize,
-                                                    selectedVerse:
-                                                        selectedVerse,
-                                                  ),
-                                                  eachVerse["comments"] !=
-                                                              null &&
-                                                          showComments == true
-                                                      ? Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            for (var eachComment
-                                                                in eachVerse[
-                                                                    "comments"])
-                                                              GestureDetector(
-                                                                onLongPress:
-                                                                    () async {
-                                                                  var copyableText = abbrv[
-                                                                          currentBook] +
-                                                                      " " +
-                                                                      currentChapter
-                                                                          .toString() +
-                                                                      ":" +
-                                                                      eachVerse[
-                                                                              "ID"]
-                                                                          .toString() +
-                                                                      "\n\"" +
-                                                                      eachVerse[
-                                                                          "text"] +
-                                                                      "\"\n\nCommentary:\n" +
-                                                                      eachComment;
-                                                                  await FlutterClipboard
-                                                                          .copy(
-                                                                              copyableText)
-                                                                      .then(
-                                                                    (value) {},
-                                                                  );
-                                                                  Fluttertoast
-                                                                      .showToast(
-                                                                    msg:
-                                                                        "Comment Copied",
-                                                                    toastLength:
-                                                                        Toast
-                                                                            .LENGTH_SHORT,
-                                                                    gravity:
-                                                                        ToastGravity
-                                                                            .TOP,
-                                                                    timeInSecForIosWeb:
-                                                                        1,
-                                                                    backgroundColor: theme
-                                                                        .colorScheme
-                                                                        .surface,
-                                                                    textColor: theme
-                                                                        .colorScheme
-                                                                        .onPrimary,
-                                                                    fontSize:
-                                                                        16.0,
-                                                                  );
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .symmetric(
-                                                                    horizontal:
-                                                                        30.0,
-                                                                  ),
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                    bottom:
-                                                                        10.0,
-                                                                  ),
-                                                                  child: Text(
-                                                                    eachComment,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          500]!,
-                                                                      fontSize:
-                                                                          eachCommentFontSize,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                          ],
-                                                        )
-                                                      : Container()
-                                                ],
+                                        ),
+                                      ],
+                                    ),
+                                    // Translations and Bookmarks
+                                    Row(
+                                      children: [
+                                        currentVersion == "ERV" &&
+                                                isAmharic == false
+                                            ? IconButton(
+                                                onPressed: () {
+                                                  showComments = !showComments;
+                                                  setState(() {});
+                                                },
+                                                icon: Icon(
+                                                  showComments == true
+                                                      ? Icons
+                                                          .comments_disabled_outlined
+                                                      : Icons
+                                                          .insert_comment_outlined,
+                                                  color: Colors.grey[700]!,
+                                                ),
+                                              )
+                                            : Container(
+                                                height: 50.0,
+                                                // color: Colors.red,
+                                              ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showVersions();
+                                          },
+                                          child: Container(
+                                            key: keyButton3,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15.0,
+                                              vertical: 10.0,
+                                            ),
+                                            child: Text(
+                                              isAmharic == true
+                                                  ? "አማ"
+                                                  : currentVersion,
+                                              style: TextStyle(
+                                                color:
+                                                    theme.colorScheme.onPrimary,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          for (var eachVerse in content)
-                                            Column(
-                                              children: [
-                                                GestureDetector(
-                                                  key: (eachVerse["ID"] ==
-                                                              "4" &&
-                                                          currentVersion ==
-                                                              "NASB" &&
-                                                          currentTestament ==
-                                                              "OT" &&
-                                                          currentBook == "GEN")
-                                                      ? keyButton8
-                                                      : GlobalKey(
-                                                          debugLabel: eachVerse[
-                                                              "text"]),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          key: keyButton4,
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const BookmarksPage(),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(
+                                            Icons.bookmark_outline,
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                                            ),
+                                            onPressed: () {
+                                              themeProvider.toggleTheme(!themeProvider.isDarkMode);
+                                              },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.grey[700],
+                              ),
+                              isAmharic == true
+                                  ? Column(
+                                      children: [
+                                        for (var eachVerse in amharicBible)
+                                          eachVerse["text"] == "" ||
+                                                  eachVerse["text"] == "-"
+                                              ? Container()
+                                              : GestureDetector(
                                                   onTap: () {
                                                     showDifferentVersions(
-                                                      int.parse(
-                                                          eachVerse["ID"]),
+                                                      eachVerse["ID"],
                                                     );
                                                   },
                                                   onLongPress: () {
                                                     selectVerses(
-                                                        eachVerse["ID"],
+                                                        eachVerse["ID"]
+                                                            .toString(),
                                                         eachVerse["text"]);
                                                   },
-                                                  child: eachVerse["text"]
-                                                              .toString() !=
-                                                          ""
-                                                      ? EachVerse(
-                                                          verseData: eachVerse,
-                                                          fontSize:
-                                                              eachVerseFontSize,
-                                                          eachNumberFontSize:
-                                                              eachNumberFontSize,
-                                                          selectedVerse:
-                                                              selectedVerse,
-                                                        )
-                                                      : Container(),
+                                                  child: EachVerse(
+                                                    verseData: eachVerse,
+                                                    fontSize: eachVerseFontSize,
+                                                    eachNumberFontSize:
+                                                        eachNumberFontSize,
+                                                    selectedVerse: selectedVerse,
+                                                  ),
                                                 ),
-                                              ],
+                                      ],
+                                    )
+                                  : currentVersion == "ERV"
+                                      ? Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 5.0,
+                                                bottom: 10.0,
+                                                left: 20.0,
+                                                right: 20.0,
+                                              ),
+                                              child: showComments == true &&
+                                                      ervTitle["title"] != null
+                                                  ? Text(
+                                                      ervTitle["title"],
+                                                      style: TextStyle(
+                                                        color: Colors.greenAccent,
+                                                        fontSize:
+                                                            eachTopicFontSize,
+                                                      ),
+                                                    )
+                                                  : Container(),
                                             ),
-                                        ],
-                                      ),
-                            const SizedBox(height: 200.0),
-                          ],
-                        )
-                      : Container(),
-                ],
+                                            // Each ERV Verse
+                                            for (var eachVerse
+                                                in ervTitle["text"])
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDifferentVersions(
+                                                    int.parse(eachVerse["ID"]),
+                                                  );
+                                                },
+                                                onLongPress: () {
+                                                  selectVerses(eachVerse["ID"],
+                                                      eachVerse["text"]);
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    EachVerse(
+                                                      verseData: eachVerse,
+                                                      fontSize: eachVerseFontSize,
+                                                      eachNumberFontSize:
+                                                          eachNumberFontSize,
+                                                      selectedVerse:
+                                                          selectedVerse,
+                                                    ),
+                                                    eachVerse["comments"] !=
+                                                                null &&
+                                                            showComments == true
+                                                        ? Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              for (var eachComment
+                                                                  in eachVerse[
+                                                                      "comments"])
+                                                                GestureDetector(
+                                                                  onLongPress:
+                                                                      () async {
+                                                                    var copyableText = abbrv[
+                                                                            currentBook] +
+                                                                        " " +
+                                                                        currentChapter
+                                                                            .toString() +
+                                                                        ":" +
+                                                                        eachVerse[
+                                                                                "ID"]
+                                                                            .toString() +
+                                                                        "\n\"" +
+                                                                        eachVerse[
+                                                                            "text"] +
+                                                                        "\"\n\nCommentary:\n" +
+                                                                        eachComment;
+                                                                    await FlutterClipboard
+                                                                            .copy(
+                                                                                copyableText)
+                                                                        .then(
+                                                                      (value) {},
+                                                                    );
+                                                                    Fluttertoast
+                                                                        .showToast(
+                                                                      msg:
+                                                                          "Comment Copied",
+                                                                      toastLength:
+                                                                          Toast
+                                                                              .LENGTH_SHORT,
+                                                                      gravity:
+                                                                          ToastGravity
+                                                                              .TOP,
+                                                                      timeInSecForIosWeb:
+                                                                          1,
+                                                                      backgroundColor: theme
+                                                                          .colorScheme
+                                                                          .surface,
+                                                                      textColor: theme
+                                                                          .colorScheme
+                                                                          .onPrimary,
+                                                                      fontSize:
+                                                                          16.0,
+                                                                    );
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    width: double
+                                                                        .infinity,
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .symmetric(
+                                                                      horizontal:
+                                                                          30.0,
+                                                                    ),
+                                                                    margin:
+                                                                        const EdgeInsets
+                                                                            .only(
+                                                                      bottom:
+                                                                          10.0,
+                                                                    ),
+                                                                    child: Text(
+                                                                      eachComment,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                                .grey[
+                                                                            500]!,
+                                                                        fontSize:
+                                                                            eachCommentFontSize,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                            ],
+                                                          )
+                                                        : Container()
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            for (var eachVerse in content)
+                                              Column(
+                                                children: [
+                                                  GestureDetector(
+                                                    key: (eachVerse["ID"] ==
+                                                                "4" &&
+                                                            currentVersion ==
+                                                                "NASB" &&
+                                                            currentTestament ==
+                                                                "OT" &&
+                                                            currentBook == "GEN")
+                                                        ? keyButton8
+                                                        : GlobalKey(
+                                                            debugLabel: eachVerse[
+                                                                "text"]),
+                                                    onTap: () {
+                                                      showDifferentVersions(
+                                                        int.parse(
+                                                            eachVerse["ID"]),
+                                                      );
+                                                    },
+                                                    onLongPress: () {
+                                                      selectVerses(
+                                                          eachVerse["ID"],
+                                                          eachVerse["text"]);
+                                                    },
+                                                    child: eachVerse["text"]
+                                                                .toString() !=
+                                                            ""
+                                                        ? EachVerse(
+                                                            verseData: eachVerse,
+                                                            fontSize:
+                                                                eachVerseFontSize,
+                                                            eachNumberFontSize:
+                                                                eachNumberFontSize,
+                                                            selectedVerse:
+                                                                selectedVerse,
+                                                          )
+                                                        : Container(),
+                                                  ),
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                              const SizedBox(height: 200.0),
+                            ],
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              currentChapter - 1 >= 1
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: FloatingActionButton(
-                        heroTag: "backChapter",
-                        backgroundColor: theme.colorScheme.onPrimary,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                currentChapter - 1 >= 1
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: FloatingActionButton(
+                          heroTag: "backChapter",
+                          backgroundColor: theme.colorScheme.secondary,
+                          mini: true,
+                          onPressed: () {
+                            if (currentChapter - 1 >= 1) {
+                              currentChapter -= 1;
+                              setContent(
+                                currentVersion,
+                                currentTestament,
+                                currentBook,
+                                currentChapter,
+                              );
+                            }
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: theme.colorScheme.onSecondary,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 1.0,
+                        width: 30.0,
+                      ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: FloatingActionButton(
+                    key: keyButton6,
+                    heroTag: "decreaseFont",
+                    backgroundColor: theme.colorScheme.secondary,
+                    mini: true,
+                    onPressed: () {
+                      decreaseFontSize();
+                    },
+                    child: Icon(
+                      Icons.remove,
+                      color: theme.colorScheme.onSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            selectedVerse.isNotEmpty == false
+                ? const SizedBox(
+                    height: 1.0,
+                    width: 30.0,
+                  )
+                : Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: FloatingActionButton(
+                          heroTag: "copyVerse",
+                          backgroundColor: theme.colorScheme.onPrimary,
+                          mini: true,
+                          onPressed: () {
+                            copySelectedVerses();
+                            Fluttertoast.showToast(
+                              msg: selectedVerse.length > 1
+                                  ? "Verses Copied"
+                                  : "Verse Copied",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.TOP,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: theme.colorScheme.surface,
+                              textColor: theme.colorScheme.primary,
+                              fontSize: 16.0,
+                            );
+                          },
+                          child: Icon(
+                            Icons.copy_rounded,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: FloatingActionButton(
+                          heroTag: "bookmarkVerse",
+                          backgroundColor: theme.colorScheme.onPrimary,
+                          mini: true,
+                          onPressed: () {
+                            addToBookmarks();
+                            Fluttertoast.showToast(
+                              msg: selectedVerse.length > 1
+                                  ? "Verses Added to Bookmark"
+                                  : "Verse Added to Bookmark",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.TOP,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: theme.colorScheme.surface,
+                              textColor: theme.colorScheme.primary,
+                              fontSize: 16.0,
+                            );
+                          },
+                          child: Icon(
+                            Icons.bookmark_add_outlined,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: FloatingActionButton(
+                    key: keyButton5,
+                    heroTag: "increaseFont",
+                    backgroundColor: theme.colorScheme.secondary,
+                    mini: true,
+                    onPressed: () {
+                      increaseFontSize();
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: theme.colorScheme.onSecondary,
+                    ),
+                  ),
+                ),
+                currentChapter + 1 <= chapterLength
+                    ? FloatingActionButton(
+                        key: keyButton7,
+                        heroTag: "nextChapter",
+                        backgroundColor: theme.colorScheme.secondary,
                         mini: true,
                         onPressed: () {
-                          if (currentChapter - 1 >= 1) {
-                            currentChapter -= 1;
+                          if (currentChapter + 1 <= chapterLength) {
+                            currentChapter += 1;
                             setContent(
                               currentVersion,
                               currentTestament,
@@ -1255,138 +1390,15 @@ class _HomePageState extends State<HomePage> {
                           }
                         },
                         child: Icon(
-                          Icons.arrow_back,
-                          color: theme.colorScheme.primary,
+                          Icons.arrow_forward,
+                          color: theme.colorScheme.onSecondary,
                         ),
-                      ),
-                    )
-                  : const SizedBox(
-                      height: 1.0,
-                      width: 30.0,
-                    ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: FloatingActionButton(
-                  key: keyButton6,
-                  heroTag: "decreaseFont",
-                  backgroundColor: theme.colorScheme.onPrimary,
-                  mini: true,
-                  onPressed: () {
-                    decreaseFontSize();
-                  },
-                  child: Icon(
-                    Icons.remove,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          selectedVerse.isNotEmpty == false
-              ? const SizedBox(
-                  height: 1.0,
-                  width: 30.0,
-                )
-              : Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: FloatingActionButton(
-                        heroTag: "copyVerse",
-                        backgroundColor: theme.colorScheme.onPrimary,
-                        mini: true,
-                        onPressed: () {
-                          copySelectedVerses();
-                          Fluttertoast.showToast(
-                            msg: selectedVerse.length > 1
-                                ? "Verses Copied"
-                                : "Verse Copied",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: theme.colorScheme.surface,
-                            textColor: theme.colorScheme.primary,
-                            fontSize: 16.0,
-                          );
-                        },
-                        child: Icon(
-                          Icons.copy_rounded,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: FloatingActionButton(
-                        heroTag: "bookmarkVerse",
-                        backgroundColor: theme.colorScheme.onPrimary,
-                        mini: true,
-                        onPressed: () {
-                          addToBookmarks();
-                          Fluttertoast.showToast(
-                            msg: selectedVerse.length > 1
-                                ? "Verses Added to Bookmark"
-                                : "Verse Added to Bookmark",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: theme.colorScheme.surface,
-                            textColor: theme.colorScheme.primary,
-                            fontSize: 16.0,
-                          );
-                        },
-                        child: Icon(
-                          Icons.bookmark_add_outlined,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: FloatingActionButton(
-                  key: keyButton5,
-                  heroTag: "increaseFont",
-                  backgroundColor: theme.colorScheme.onPrimary,
-                  mini: true,
-                  onPressed: () {
-                    increaseFontSize();
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-              currentChapter + 1 <= chapterLength
-                  ? FloatingActionButton(
-                      key: keyButton7,
-                      heroTag: "nextChapter",
-                      backgroundColor: theme.colorScheme.onPrimary,
-                      mini: true,
-                      onPressed: () {
-                        if (currentChapter + 1 <= chapterLength) {
-                          currentChapter += 1;
-                          setContent(
-                            currentVersion,
-                            currentTestament,
-                            currentBook,
-                            currentChapter,
-                          );
-                        }
-                      },
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: theme.colorScheme.primary,
-                      ),
-                    )
-                  : Container(height: 1.0)
-            ],
-          )
-        ],
+                      )
+                    : Container(height: 1.0)
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -30,7 +30,6 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
         .loadString("assets/holybooks/EN/index.json");
     final jsonResult = jsonDecode(data);
     bibleVersionsInfo = jsonResult["versions"];
-    // print(bibleVersionsInfo);
     setState(() {});
   }
 
@@ -42,11 +41,11 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(this.context);
+    final theme = Theme.of(context);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: Colors.greenAccent,
+        color: theme.colorScheme.surface, // Updated to use theme color
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
@@ -57,15 +56,11 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(
-              20.0,
-            ),
-            topRight: Radius.circular(
-              20.0,
-            ),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
         ),
-        child: bibleVersionsInfo.isEmpty == true
+        child: bibleVersionsInfo.isEmpty
             ? Container()
             : ListView(
                 children: [

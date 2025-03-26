@@ -46,7 +46,7 @@ class _EachTestamentState extends State<EachTestament> {
           border: Border.all(
             color: theme.colorScheme.onPrimary,
           ),
-          boxShadow:  [
+          boxShadow: [
             BoxShadow(
               color: theme.colorScheme.onPrimary,
               spreadRadius: 1.0,
@@ -65,7 +65,7 @@ class _EachTestamentState extends State<EachTestament> {
                 style: TextStyle(
                     fontSize: 18.0,
                     color: widget.selectedTestament == widget.english
-                        ? Colors.greenAccent
+                        ? theme.colorScheme.secondary
                         : theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold),
               ),
@@ -75,7 +75,7 @@ class _EachTestamentState extends State<EachTestament> {
                 style: TextStyle(
                     fontSize: 16.0,
                     color: widget.selectedTestament == widget.english
-                        ? Colors.greenAccent
+                        ? theme.colorScheme.secondary
                         : theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold),
               ),

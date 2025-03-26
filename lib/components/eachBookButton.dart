@@ -22,8 +22,9 @@ class _EachBookButtonState extends State<EachBookButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // Use theme.colorScheme.secondary when selected
+    final selectedColor = widget.isSelected ? theme.colorScheme.secondary : theme.colorScheme.onPrimary;
     return Container(
-      // width: double.infinity,
       margin: const EdgeInsets.symmetric(
         vertical: 6.0,
         horizontal: 15.0,
@@ -56,9 +57,7 @@ class _EachBookButtonState extends State<EachBookButton> {
             child: Text(
               widget.english,
               style: TextStyle(
-                color: widget.isSelected == true
-                    ? Colors.greenAccent
-                    : theme.colorScheme.onPrimary,
+                color: selectedColor,
                 fontSize: 15.0,
               ),
             ),
@@ -68,9 +67,7 @@ class _EachBookButtonState extends State<EachBookButton> {
               widget.amharic,
               textAlign: TextAlign.right,
               style: TextStyle(
-                color: widget.isSelected == true
-                    ? Colors.greenAccent
-                    : theme.colorScheme.onPrimary,
+                color: selectedColor,
                 fontSize: 14.0,
               ),
             ),

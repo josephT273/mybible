@@ -118,7 +118,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: Colors.greenAccent,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
@@ -129,15 +129,11 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(
-              20.0,
-            ),
-            topRight: Radius.circular(
-              20.0,
-            ),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
         ),
-        child: differentVersion.isEmpty == true
+        child: differentVersion.isEmpty
             ? SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -252,11 +248,10 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 200.0),
-                    const Center(
+                    Center(
                       child: CircularProgressIndicator(
-                        color: Colors.greenAccent,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                   ],
@@ -396,16 +391,13 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 onTap: () async {
                                   var copyableText =
                                       "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"] == "አማ" ? "አማ 1954" : eachVersion["version"]})";
-                                  await FlutterClipboard.copy(copyableText)
-                                      .then(
-                                    (value) {},
-                                  );
+                                  await FlutterClipboard.copy(copyableText);
                                   Fluttertoast.showToast(
                                     msg: "Version Copied",
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.TOP,
                                     timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: theme.colorScheme.secondary,
                                     textColor: theme.colorScheme.onPrimary,
                                     fontSize: 16.0,
                                   );
@@ -425,15 +417,15 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                           right: 12.0,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: Colors.grey[900]!,
+                                          color: theme.cardColor,
                                           border: Border.all(
-                                            color: Colors.grey[850]!,
+                                            color: theme.dividerColor,
                                           ),
-                                          boxShadow: const [
+                                          boxShadow: [
                                             BoxShadow(
-                                              color: Colors.black,
+                                              color: theme.shadowColor,
                                               spreadRadius: 1.0,
-                                              offset: Offset(3, 4),
+                                              offset: const Offset(3, 4),
                                             )
                                           ],
                                           borderRadius:
@@ -449,7 +441,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                                   : eachVersion["version"],
                                               style: TextStyle(
                                                 fontSize: 14.0,
-                                                color: Colors.grey[500]!,
+                                                color: theme.hintColor,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -489,7 +481,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.TOP,
                                       timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black,
+                                      backgroundColor: theme.colorScheme.secondary,
                                       textColor: theme.colorScheme.onPrimary,
                                       fontSize: 16.0,
                                     );

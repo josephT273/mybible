@@ -44,8 +44,8 @@ class _EachVerseState extends State<EachVerse> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     checkSelection();
+    final selectedColor = theme.colorScheme.secondary;
     return Container(
-      decoration: const BoxDecoration(),
       padding: const EdgeInsets.only(
         right: 10.0,
         top: 5.0,
@@ -62,9 +62,7 @@ class _EachVerseState extends State<EachVerse> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: widget.eachNumberFontSize,
-                color: isSelected == true
-                    ? const Color.fromARGB(255, 136, 255, 0)
-                    : theme.colorScheme.onPrimary,
+                color: isSelected ? selectedColor : theme.colorScheme.onPrimary,
               ),
             ),
           ),
@@ -75,9 +73,7 @@ class _EachVerseState extends State<EachVerse> {
               style: TextStyle(
                 fontSize: widget.fontSize,
                 height: 1.2,
-                color: isSelected == true
-                    ? const Color.fromARGB(255, 136, 255, 0)
-                    : theme.colorScheme.onPrimary,
+                color: isSelected ? selectedColor : theme.colorScheme.onPrimary,
               ),
             ),
           ),

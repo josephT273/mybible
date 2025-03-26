@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Column(
               children: [
                 Text(
-                  "August 30, 2023",
+                  "March 27, 2025",
                   style: TextStyle(
                     color: Colors.grey[800]!,
                     fontSize: 12.0,

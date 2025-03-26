@@ -31,7 +31,7 @@ class _EachChapterButtonState extends State<EachChapterButton> {
         border: Border.all(
           color: theme.colorScheme.onPrimary,
         ),
-        boxShadow:  [
+        boxShadow: [
           BoxShadow(
             color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
@@ -46,8 +46,9 @@ class _EachChapterButtonState extends State<EachChapterButton> {
           child: Text(
             widget.chapter,
             style: TextStyle(
-              color:
-                  widget.isSelected == true ? Colors.greenAccent : theme.colorScheme.onPrimary,
+              color: widget.isSelected
+                  ? theme.colorScheme.secondary
+                  : theme.colorScheme.onPrimary,
               fontSize: 16.0,
             ),
           ),
