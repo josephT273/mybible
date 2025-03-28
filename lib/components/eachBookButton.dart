@@ -37,7 +37,7 @@ class _EachBookButtonState extends State<EachBookButton> {
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary,
+        color: theme.colorScheme.surface,
         border: Border.all(
           color: theme.colorScheme.onPrimary,
         ),
@@ -45,7 +45,7 @@ class _EachBookButtonState extends State<EachBookButton> {
           BoxShadow(
             color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
-            offset: const Offset(3, 4),
+            offset: const Offset(1, 2),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),

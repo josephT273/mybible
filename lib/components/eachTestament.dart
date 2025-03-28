@@ -42,7 +42,7 @@ class _EachTestamentState extends State<EachTestament> {
           right: 20.0,
         ),
         decoration: BoxDecoration(
-          color: theme.colorScheme.primary,
+          color: theme.colorScheme.surface,
           border: Border.all(
             color: theme.colorScheme.onPrimary,
           ),
