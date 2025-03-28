@@ -1372,6 +1372,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                        height: 1.0,
+                        width: 5.0,
+                      ),
                 currentChapter + 1 <= chapterLength
                     ? FloatingActionButton(
                         key: keyButton7,
