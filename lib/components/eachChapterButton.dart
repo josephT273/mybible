@@ -27,7 +27,7 @@ class _EachChapterButtonState extends State<EachChapterButton> {
       ),
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary,
+        color: theme.colorScheme.surface,
         border: Border.all(
           color: theme.colorScheme.onPrimary,
         ),
@@ -35,7 +35,7 @@ class _EachChapterButtonState extends State<EachChapterButton> {
           BoxShadow(
             color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
-            offset: const Offset(3, 4),
+            offset: const Offset(1, 2),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
@@ -50,6 +50,7 @@ class _EachChapterButtonState extends State<EachChapterButton> {
                   ? theme.colorScheme.secondary
                   : theme.colorScheme.onPrimary,
               fontSize: 16.0,
+              fontWeight: widget.isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),
         ),
