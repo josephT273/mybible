@@ -50,7 +50,7 @@ class _EachTestamentState extends State<EachTestament> {
             BoxShadow(
               color: theme.colorScheme.onPrimary,
               spreadRadius: 1.0,
-              offset: const Offset(3, 4),
+              offset: const Offset(2, 1),
             )
           ],
           borderRadius: BorderRadius.circular(10.0),
