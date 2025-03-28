@@ -31,7 +31,7 @@ class _EachVersionButtonState extends State<EachVersionButton> {
         horizontal: 15.0,
       ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary,
+        color: theme.colorScheme.surface,
         border: Border.all(
           color: theme.colorScheme.onPrimary,
         ),
@@ -39,7 +39,6 @@ class _EachVersionButtonState extends State<EachVersionButton> {
           BoxShadow(
             color: theme.colorScheme.onPrimary,
             spreadRadius: 1.0,
-            offset: const Offset(3, 4),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
@@ -98,15 +97,11 @@ class _EachVersionButtonState extends State<EachVersionButton> {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(
                     vertical: 10.0,
-                    horizontal: 10.0,
                   ),
                   padding: const EdgeInsets.symmetric(
                       vertical: 15.0, horizontal: 15.0),
                   decoration: BoxDecoration(
                     color: theme.cardColor,
-                    border: Border.all(
-                      color: theme.dividerColor,
-                    ),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
