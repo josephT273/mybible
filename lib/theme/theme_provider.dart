@@ -25,39 +25,37 @@ class ThemeProvider extends ChangeNotifier {
 }
 
 class MyThemes {
-  // Dark theme suitable for Bible reading:
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFF3B3F45),   // Soft dark header color
-      onPrimary: Color(0xFFECECEC), // Light text on primary for clarity
-      surface: Color(0xFF1E1E1E),   // Dark background for reading comfort
-      onSurface: Color(0xFFB0BEC5), // Secondary text color
-      secondary: Color(0xFF8C9EFF), // Accent blue remains for highlights
-      onSecondary: Color(0xFFECECEC),
+      primary: Color(0xFF2C2C2C),
+      onPrimary: Colors.white,
+      surface: Color(0xFF121212),
+      onSurface: Color(0xFFCCCCCC),
+      secondary: Color(0xFF3A3A3A),
+      onSecondary: Colors.white,
     ),
-    scaffoldBackgroundColor: const Color(0xFF1E1E1E),
+    scaffoldBackgroundColor: const Color(0xFF121212),
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyMedium: TextStyle(color: Color(0xFFECECEC)), // Body text color
+      bodyMedium: TextStyle(color: Colors.white),
     ),
   );
 
-  // Light theme suitable for Bible reading:
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
-      primary: Color(0xFF607D8B),   // Header color: rich blue/grey
-      onPrimary: Color(0xFF1B1B1B), // Dark text on primary headers
-      surface: Color(0xFFFDFDFD),   // Off-white reading background
-      onSurface: Color(0xFF424242), // Secondary text color for contrast
-      secondary: Color(0xFF8FA8D9), // Soft accent blue for highlights
-      onSecondary: Color(0xFF1B1B1B),
+      primary: Color(0xFFE0E0E0),
+      onPrimary: Colors.black,
+      surface: Colors.white,
+      onSurface: Color(0xFF333333),
+      secondary: Color(0xFFB0B0B0),
+      onSecondary: Colors.black,
     ),
-    scaffoldBackgroundColor: const Color(0xFFFDFDFD),
+    scaffoldBackgroundColor: Colors.white,
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyMedium: TextStyle(color: Color(0xFF1B1B1B)), // Body text color
+      bodyMedium: TextStyle(color: Colors.black),
     ),
   );
 }
