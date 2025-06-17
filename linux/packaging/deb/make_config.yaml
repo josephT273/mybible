@@ -1,0 +1,23 @@
+display_name: My Bible
+package_name: mybible
+maintainer:
+  name: Dagmawi Babi
+  email: 1babidagi@gmail.com
+co_authors:
+  - name: Joseph Tadesse
+    email: josephtadessem@gmail.com
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: assets/icons/bibleLogo.jpg
+
+keywords:
+  - Application
+
+generic_name: Bible Application
+
+categories:
+  - Bible
+
+startup_notify: true
